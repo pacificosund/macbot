@@ -131,8 +131,8 @@ run defaults write DSDontWriteNetworkStores com.apple.desktopservices -int 1
 echo "Don't ask to use external drives as a Time Machine backup."
 run defaults write DoNotOfferNewDisksForBackup com.apple.TimeMachine -int 1
 
-echo "Disable natural scrolling."
-run defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldirection -bool false
+#echo "Disable natural scrolling."
+#run defaults write ~/Library/Preferences/.GlobalPreferences com.apple.swipescrolldirection -bool false
 
 # Security And Privacy Improvements
 echo "Disable Safari from auto-filling sensitive data."
@@ -194,8 +194,8 @@ run defaults write ~/Library/Containers/com.apple.mail/Data/Library/Preferences/
 echo "Disable spotlight universal search (don't send info to Apple)."
 run defaults write com.apple.safari UniversalSearchEnabled -int 0
 
-echo "Disable Spotlight Suggestions, Bing Web Search, and other leaky data."
-run python ./fix_leaky_data.py
+#echo "Disable Spotlight Suggestions, Bing Web Search, and other leaky data."
+#run python ./fix_leaky_data.py
 
 echo "Disable Captive Portal Hijacking Attack."
 run defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
@@ -213,8 +213,8 @@ run defaults write com.apple.CrashReporter DialogType none
 echo "Enable Stealth Mode. Computer will not respond to ICMP ping requests or connection attempts from a closed TCP/UDP port."
 run defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
 
-echo "Set all network interfaces to use Google DNS."
-run bash ./use_google_dns.sh
+#echo "Set all network interfaces to use Google DNS."
+#run bash ./use_google_dns.sh
 
 echo "Disable wake on network access."
 run systemsetup -setwakeonnetworkaccess off
@@ -222,20 +222,20 @@ run systemsetup -setwakeonnetworkaccess off
 echo "Disable Bonjour multicast advertisements."
 run defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 
-echo "Enable Mac App Store automatic updates."
-run defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+#echo "Enable Mac App Store automatic updates."
+#run defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
 
 echo "Check for Mac App Store updates daily."
 run defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
-echo "Download Mac App Store updates in the background."
-run defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+#echo "Download Mac App Store updates in the background."
+#run defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
 
 echo "Install Mac App Store system data files & security updates."
 run defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
 
-echo "Turn on Mac App Store auto-update."
-run defaults write com.apple.commerce AutoUpdate -bool true
+#echo "Turn on Mac App Store auto-update."
+#run defaults write com.apple.commerce AutoUpdate -bool true
 
 # Install Applications
 
@@ -257,8 +257,8 @@ echo "Install updated curl + OpenSSL."
 run brew install curl --with-openssl
 run brew link --force curl
 
-echo "Install git."
-run brew install git
+#echo "Install git."
+#run brew install git
 
 echo "Install mas (Mac App Store Command Line)."
 run brew install mas
@@ -288,26 +288,29 @@ if [ -z "$mac_app_login" ] ; then
     run mas signin $mac_app_login
 fi
 
-echo "Install Reeder."
-run mas install 880001334
-
-echo "Install Final Cut Pro."
-run mas install 424389933
+echo "Install Skitch."
+run mas install 425955336 
 
 echo "Install Keynote."
 run mas install 409183694
 
-echo "Install Things3."
-run mas install 904280696
+echo "Install iMovie."
+run mas install 408981434 
 
-echo "Install Slack."
-run mas install 803453959
+echo "Install GarageBand."
+run mas install 682658836 
 
-echo "Install Decompressor."
-run mas install 1033480833
+#echo "Install Things3."
+#run mas install 904280696
 
-echo "Install GIF Keyboard."
-run mas install 1043270657
+#echo "Install Slack."
+#run mas install 803453959
+
+#echo "Install Decompressor."
+#run mas install 1033480833
+
+#echo "Install GIF Keyboard."
+#run mas install 1043270657
 
 echo "Upgrade any Mac App Store applications."
 run mas upgrade
