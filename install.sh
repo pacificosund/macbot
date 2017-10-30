@@ -50,14 +50,22 @@ then
     echo ""
 fi
 
-step "Setting your computer name (as done via System Preferences → Sharing)."
-echo "What would you like it to be? $bold"
-read computer_name
-echo "$reset"
-run sudo scutil --set ComputerName "'$computer_name'"
-run sudo scutil --set HostName "'$computer_name'"
-run sudo scutil --set LocalHostName "'$computer_name'"
-run sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "'$computer_name'"
+#step "Setting your computer name (as done via System Preferences → Sharing)."
+#echo "What would you like it to be? $bold"
+#read computer_name
+#echo "$reset"
+#run sudo scutil --set ComputerName "'$computer_name'"
+#run sudo scutil --set HostName "'$computer_name'"
+#run sudo scutil --set LocalHostName "'$computer_name'"
+#run sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "'$computer_name'"
+
+# Setup Application Firewall
+echo "Enabling socketfw"
+run /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+run /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
+run /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+run /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
+run /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
 # UX And Performance Improvements
 echo "Disable sudden motion sensor. (Not useful for SSDs)."
@@ -102,7 +110,7 @@ echo "Disable annoying UI error sounds."
 run defaults write com.apple.systemsound com.apple.sound.beep.volume -int 0
 run defaults write com.apple.sound.beep feedback -int 0
 run defaults write com.apple.systemsound com.apple.sound.uiaudio.enabled -int 0
-run osascript -e 'set volume alert volume 0'
+run osascript -e "set volume alert volume 0"
 
 echo "Show all filename extensions."
 run defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -250,6 +258,9 @@ else
     run brew update
 fi
 
+echo "Fixing paths!"
+run chown -R $(whoami) $(brew --prefix)/*
+
 echo "Install an updated OpenSSL."
 run brew install openssl
 
@@ -269,6 +280,9 @@ run brew install caskformula/caskformula/inkscape
 echo "Install youtube-dl."
 run brew install youtube-dl
 run brew install ffmpeg
+
+echo "Install gnupg."
+run brew install gnupg
 
 # Trust a curl | bash? Why not.
 echo "Install rust using Rustup."
