@@ -63,7 +63,7 @@ fi
 run /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -configure -access -off
 
 # Turn off Filewave daemon on port 20010
-run launchctl unload -w /usr/local/sbin/FileWave.app/Contents/MacOS/fwcld
+run launchctl unload -w /Library/LaunchDaemons/com.filewave.fwcld.plist
 
 # Turn off SSH
 echo "Disabling SSHD"
