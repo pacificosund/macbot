@@ -59,6 +59,20 @@ fi
 #run sudo scutil --set LocalHostName "'$computer_name'"
 #run sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "'$computer_name'"
 
+# Turn off Remote Management
+run /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -configure -access -off
+
+# Turn off Filewave daemon on port 20010
+run launchctl unload -w /usr/local/sbin/FileWave.app/Contents/MacOS/fwcld
+
+# Turn off SSH
+echo "Disabling SSHD"
+run launchctl unload -w /System/Library/LaunchDaemons/ssh.plist
+
+# Turn off NTPD
+echo "Disabling NTPD"
+run launchctl unload -w /System/Library/LaunchDaemons/org.ntp.ntpd.plist
+
 # Setup Application Firewall
 echo "Enabling socketfw"
 run /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
