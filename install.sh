@@ -59,6 +59,11 @@ fi
 #run sudo scutil --set LocalHostName "'$computer_name'"
 #run sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "'$computer_name'"
 
+# Set a sane umask 007
+echo "Setting umask"
+sudo launchctl config user umask 007 
+#sudo launchctl config system umask 007
+
 # Turn off Remote Management
 run /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -configure -access -off
 
@@ -72,6 +77,10 @@ run launchctl unload -w /System/Library/LaunchDaemons/ssh.plist
 # Turn off NTPD
 echo "Disabling NTPD"
 run launchctl unload -w /System/Library/LaunchDaemons/org.ntp.ntpd.plist
+
+# Turn off Netbios
+echo "Disabling Netbios"
+run launchctl unload -w /System/Library/LaunchDaemons/com.apple.netbiosd.plist
 
 # Setup Application Firewall
 echo "Enabling socketfw"
